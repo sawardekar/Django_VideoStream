@@ -161,3 +161,16 @@ class MaskDetect(object):
 			cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
 		ret, jpeg = cv2.imencode('.jpg', frame)
 		return jpeg.tobytes()
+		
+class LiveWebCam(object):
+	def __init__(self):
+		self.url = cv2.VideoCapture("rtsp://admin:Mumbai@123@203.192.228.175:554/")
+
+	def __del__(self):
+		cv2.destroyAllWindows()
+
+	def get_frame(self):
+		success,imgNp = self.url.read()
+		resize = cv2.resize(imgNp, (640, 480), interpolation = cv2.INTER_LINEAR) 
+		ret, jpeg = cv2.imencode('.jpg', resize)
+		return jpeg.tobytes()
